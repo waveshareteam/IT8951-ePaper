@@ -7,9 +7,11 @@
 #include <stdlib.h>     //exit()
 #include <signal.h>     //signal()
 
+#define Enhance false
+
 #define USE_Factory_Test false
 
-#define Enhance false
+#define USE_Normal_Demo true
 
 #define USE_Touch_Panel false
 
@@ -90,6 +92,10 @@ int main(int argc, char *argv[])
         //6inch e-Paper HAT(800,600), 6inch HD e-Paper HAT(1448,1072), 6inch HD touch e-Paper HAT(1448,1072)
         A2_Mode = 4;
         Four_Byte_Align = true;
+    }else if( strcmp(LUT_Version, "M841_TFAB512") == 0 ){
+        //Another firmware version for 6inch HD e-Paper HAT(1448,1072), 6inch HD touch e-Paper HAT(1448,1072)
+        A2_Mode = 6;
+        Four_Byte_Align = true;
     }else if( strcmp(LUT_Version, "M841") == 0 ){
         //9.7inch e-Paper HAT(1200,825)
         A2_Mode = 6;
@@ -110,6 +116,7 @@ int main(int argc, char *argv[])
     Factory_Test_Only(Dev_Info, Init_Target_Memory_Addr);
 #endif
 
+#if(USE_Normal_Demo)
     //Show 16 grayscale
     EPD_IT8951_Init_Refresh(Dev_Info, Init_Target_Memory_Addr);
     Display_ColorPalette_Example(Panel_Width, Panel_Height, Init_Target_Memory_Addr);
@@ -136,7 +143,8 @@ int main(int argc, char *argv[])
     //Show how to test frame rate, test it individually,which is related to refresh area size and refresh mode
     EPD_IT8951_Init_Refresh(Dev_Info, Init_Target_Memory_Addr);
     Check_FrameRate_Example(800, 600, Init_Target_Memory_Addr, BitsPerPixel_1);
-
+#endif
+    
 #if(USE_Touch_Panel)
     //show a simple demo for hand-painted tablet, only support for <6inch HD touch e-Paper> at present
     EPD_IT8951_Init_Refresh(Dev_Info, Init_Target_Memory_Addr);
