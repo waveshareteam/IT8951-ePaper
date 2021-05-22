@@ -9,7 +9,7 @@
 #define BitsPerPixel_1 1
 // 2 bit per pixel, which is 4 grayscale 
 #define BitsPerPixel_2 2
-// 4 bit per pixel, which is 8 grayscale
+// 4 bit per pixel, which is 16 grayscale
 #define BitsPerPixel_4 4
 // 8 bit per pixel, which is 256 grayscale, but will automatically reduce by hardware to 4bpp, which is 16 grayscale
 #define BitsPerPixel_8 8
