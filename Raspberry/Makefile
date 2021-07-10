@@ -21,6 +21,7 @@ CFLAGS += $(MSG) $(DEBUG) $(STD)
 
 LIB = -lbcm2835 -lm -lrt -lpthread
 
+$(shell mkdir -p $(DIR_BIN))
 
 ${TARGET}:${OBJ_O}
 	$(CC) $(CFLAGS) $(OBJ_O) -o $@ $(LIB) 
