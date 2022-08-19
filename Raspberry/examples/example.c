@@ -436,6 +436,7 @@ UBYTE Dynamic_GIF_Example(UWORD Panel_Width, UWORD Panel_Height, UDOUBLE Init_Ta
         Animation_Test_Finish = clock();
         Animation_Test_Duration = (double)(Animation_Test_Finish - Animation_Test_Start) / CLOCKS_PER_SEC;
         Debug( "Show all frame occupy %f second\r\n", Animation_Test_Duration );
+   		Debug( "The frame rate is: %lf fps\r\n", Pic_Num/Animation_Test_Duration);
 
         Repeat_Animation_Times ++;
         if(Repeat_Animation_Times >15){
@@ -868,7 +869,7 @@ void Color_Test(IT8951_Dev_Info Dev_Info, UDOUBLE Init_Target_Memory_Addr)
 			Paint_DrawString_EN(1000, 600, "Hello, World!", &Font24, 0x0a5a, 0x0fff);
 			Paint_DrawString_EN(1000, 700, "Hello, World!", &Font24, 0x05aa, 0x0fff);
 
-			Paint_DrawString_CN(700, 400, "ÄãºÃ Î¢Ñ©µç×Ó", &Font24CN, 0x00fa, 0x0000);
+			Paint_DrawString_CN(700, 400, "ï¿½ï¿½ï¿½ Î¢Ñ©ï¿½ï¿½ï¿½ï¿½", &Font24CN, 0x00fa, 0x0000);
 			Paint_DrawNum(700, 500, 123456789, &Font24, 0x0a0f, 0x0fff);
 			Paint_DrawTime(700, 600, &Time, &Font24, 0x0fa0, 0x0fff);
 		}else {
