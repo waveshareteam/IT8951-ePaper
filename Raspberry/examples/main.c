@@ -17,7 +17,7 @@
 
 UWORD VCOM = 2510;
 
-IT8951_Dev_Info Dev_Info;
+IT8951_Dev_Info Dev_Info = {0, 0};
 UWORD Panel_Width;
 UWORD Panel_Height;
 UDOUBLE Init_Target_Memory_Addr;
@@ -53,8 +53,10 @@ void  Handler(int signo){
         Debug("free bmp_dst_buf\r\n");
         bmp_dst_buf = NULL;
     }
-    Debug("Going to sleep\r\n");
-    EPD_IT8951_Sleep();
+	if(Dev_Info.Panel_W != 0){
+		Debug("Going to sleep\r\n");
+		EPD_IT8951_Sleep();
+	}
     DEV_Module_Exit();
     exit(0);
 }
