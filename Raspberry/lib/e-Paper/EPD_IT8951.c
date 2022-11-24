@@ -506,7 +506,7 @@ static void EPD_IT8951_HostAreaPackedPixelWrite_4bp(IT8951_Load_Img_Info*Load_Im
             }
         }
     }
-	
+
     EPD_IT8951_LoadImgEnd();
 }
 
@@ -705,7 +705,7 @@ void EPD_IT8951_Clear_Refresh(IT8951_Dev_Info Dev_Info,UDOUBLE Target_Memory_Add
 
     EPD_IT8951_WaitForDisplayReady();
 
-    Load_Img_Info.Source_Buffer_Addr = (UDOUBLE)Frame_Buf;
+    Load_Img_Info.Source_Buffer_Addr = Frame_Buf;
     Load_Img_Info.Endian_Type = IT8951_LDIMG_L_ENDIAN;
     Load_Img_Info.Pixel_Format = IT8951_4BPP;
     Load_Img_Info.Rotate =  IT8951_ROTATE_0;
@@ -736,7 +736,7 @@ void EPD_IT8951_1bp_Refresh(UBYTE* Frame_Buf, UWORD X, UWORD Y, UWORD W, UWORD H
 
     EPD_IT8951_WaitForDisplayReady();
 
-    Load_Img_Info.Source_Buffer_Addr = (UDOUBLE)Frame_Buf;
+    Load_Img_Info.Source_Buffer_Addr = Frame_Buf;
     Load_Img_Info.Endian_Type = IT8951_LDIMG_L_ENDIAN;
     //Use 8bpp to set 1bpp
     Load_Img_Info.Pixel_Format = IT8951_8BPP;
@@ -782,7 +782,7 @@ void EPD_IT8951_1bp_Multi_Frame_Write(UBYTE* Frame_Buf, UWORD X, UWORD Y, UWORD 
 
     EPD_IT8951_WaitForDisplayReady();
 
-    Load_Img_Info.Source_Buffer_Addr = (UDOUBLE)Frame_Buf;
+    Load_Img_Info.Source_Buffer_Addr = Frame_Buf;
     Load_Img_Info.Endian_Type = IT8951_LDIMG_L_ENDIAN;
     //Use 8bpp to set 1bpp
     Load_Img_Info.Pixel_Format = IT8951_8BPP;
@@ -793,7 +793,7 @@ void EPD_IT8951_1bp_Multi_Frame_Write(UBYTE* Frame_Buf, UWORD X, UWORD Y, UWORD 
     Area_Img_Info.Area_Y = Y;
     Area_Img_Info.Area_W = W/8;
     Area_Img_Info.Area_H = H;
-
+    
     EPD_IT8951_HostAreaPackedPixelWrite_1bp(&Load_Img_Info, &Area_Img_Info,Packed_Write);
 }
 
@@ -825,7 +825,7 @@ void EPD_IT8951_2bp_Refresh(UBYTE* Frame_Buf, UWORD X, UWORD Y, UWORD W, UWORD H
 
     EPD_IT8951_WaitForDisplayReady();
 
-    Load_Img_Info.Source_Buffer_Addr = (UDOUBLE)Frame_Buf;
+    Load_Img_Info.Source_Buffer_Addr = Frame_Buf;
     Load_Img_Info.Endian_Type = IT8951_LDIMG_L_ENDIAN;
     Load_Img_Info.Pixel_Format = IT8951_2BPP;
     Load_Img_Info.Rotate =  IT8951_ROTATE_0;
@@ -862,7 +862,7 @@ void EPD_IT8951_4bp_Refresh(UBYTE* Frame_Buf, UWORD X, UWORD Y, UWORD W, UWORD H
 
     EPD_IT8951_WaitForDisplayReady();
 
-    Load_Img_Info.Source_Buffer_Addr = (UDOUBLE)Frame_Buf;
+    Load_Img_Info.Source_Buffer_Addr = Frame_Buf;
     Load_Img_Info.Endian_Type = IT8951_LDIMG_L_ENDIAN;
     Load_Img_Info.Pixel_Format = IT8951_4BPP;
     Load_Img_Info.Rotate =  IT8951_ROTATE_0;
@@ -897,7 +897,7 @@ void EPD_IT8951_8bp_Refresh(UBYTE *Frame_Buf, UWORD X, UWORD Y, UWORD W, UWORD H
 
     EPD_IT8951_WaitForDisplayReady();
 
-    Load_Img_Info.Source_Buffer_Addr = (UDOUBLE)Frame_Buf;
+    Load_Img_Info.Source_Buffer_Addr = Frame_Buf;
     Load_Img_Info.Endian_Type = IT8951_LDIMG_L_ENDIAN;
     Load_Img_Info.Pixel_Format = IT8951_8BPP;
     Load_Img_Info.Rotate =  IT8951_ROTATE_0;
