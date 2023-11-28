@@ -17,10 +17,25 @@
 
 
 2.基本使用：
+系统使用准备
+Pi5 最新系统使用
+	/boot/config.txt 文件中修改
+		sudo nano /boot/config.txt
+	屏蔽掉：
+		#dtparam=spi=on
+	添加：
+		dtoverlay=spi0-0cs
+	重启：
+		sudo reboot
+
 由于本工程是一个综合工程，对于使用而言，你可能需要阅读以下内容：
-进入工程主目录，即/IT8951,然后输入：sudo make 
-会编译程序，并且生成可执行文件：epd
-如果修改了程序，需要输入：sudo make clear，然后重新输入sudo make。
+进入工程主目录，即/IT8951,然后输入：
+	make -j4 LIB=BCM（这个LIB = BCM 也可以不写，默认使用BCM库）
+	make -j4 LIB=GPIOD （使用gpiod命令控制GPIO，Pi5只能使用这种方法）
+会编译程序，并且生成可执行文件：
+	epd
+如果修改了程序，需要输入：
+	sudo make clear，然后重新输入sudo make。
 请注意你购买的是哪一款的墨水屏。并观察FPC线上的VCOM数值，并了解该墨水屏的显示模式
 栗子1：
     如果你购买的10.3inch e-Paper HAT，并查看FPC上的VCOM为-1.52（每块屏幕可能不同，看实际情况）且该屏为模式1，那么输入

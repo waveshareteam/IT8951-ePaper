@@ -57,8 +57,16 @@
 #include <string.h>
 #include "Debug.h"
 
-#include <bcm2835.h>
+#ifdef BCM
+    #include <bcm2835.h>
+#elif GPIOD
+    #include "RPI_gpiod.h"
+    #include "dev_hardware_SPI.h"
+#endif
 
+
+#define HIGH   0x1
+#define LOW    0x0  
 
 /**
  * GPIO
@@ -76,6 +84,8 @@
 #define UBYTE   uint8_t
 #define UWORD   uint16_t
 #define UDOUBLE uint32_t
+
+
 
 
 

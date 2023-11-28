@@ -18,10 +18,26 @@ and you can view some test functions in the project examples/;
 
 
 2. Basic use:
+Preparation for system use
+	Pi5 latest system use
+	/boot/config.txt
+		sudo nano /boot/config.txt
+	Block it:
+		#dtparam=spi=on
+	Add:
+		dtoverlay=spi0-0cs
+	Restart:
+		sudo reboot
+
+
 As this project is a comprehensive project, for use, you may need to read the following.
-Go to the project main directory and type: sudo make 
-compiles the program and generates an executable file: epd
-If you change the program, you need to type: sudo make clear, then retype: sudo make.
+Go to the project home directory, /IT8951, and type:
+	make -j4 LIB=BCM (this LIB=BCM can also be omitted, the default is to use the BCM library)
+	make -j4 LIB=GPIOD (use gpiod command to control GPIO, Pi5 can only use this method)
+compiles the program and generates an executable file: 
+	epd
+If you change the program, you need to type: 
+	sudo make clear, then retype: sudo make.
 Note which type of ink screen you purchased. Observe the VCOM value on the FPC line, and know the display mode of the ink screen.
 example 1:
     If you purchased a 10.3inch e-Paper HAT and check the VCOM on the FPC is -1.52 (each screen may be different, see what happens),
