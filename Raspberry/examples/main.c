@@ -64,8 +64,8 @@ void  Handler(int signo){
 
 int main(int argc, char *argv[])
 {
-    // //Exception handling:ctrl + c
-    // signal(SIGINT, Handler);
+    //Exception handling:ctrl + c
+    signal(SIGINT, Handler);
 
     if (argc < 2){
         Debug("Please input VCOM value on FPC cable!\r\n");

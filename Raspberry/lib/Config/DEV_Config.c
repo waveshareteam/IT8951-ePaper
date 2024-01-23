@@ -300,8 +300,8 @@ void DEV_Module_Exit(void)
 	bcm2835_spi_end();
 	bcm2835_close();
 #elif LGPIO 
-    DEV_Digital_Write(EPD_CS_PIN, 0);
-	DEV_Digital_Write(EPD_RST_PIN, 0);
+    // DEV_Digital_Write(EPD_CS_PIN, 0);
+	// DEV_Digital_Write(EPD_RST_PIN, 0);
     // lgSpiClose(SPI_Handle);
     // lgGpiochipClose(GPIO_Handle);
 #elif GPIOD
