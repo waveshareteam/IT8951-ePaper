@@ -22,8 +22,13 @@ CFLAGS += $(MSG) $(DEBUG) $(STD)
 LIB_USE = -lm -lrt -lpthread
 
 LIB = BCM
+# LIB = LGPIO
+# LIB = GPIOD
 ifeq ($(LIB), BCM)
     LIB_USE += -lbcm2835
+	OBJ_O := $(filter-out ${DIR_BIN}/RPI_gpiod.o ${DIR_BIN}/dev_hardware_SPI.o, ${OBJ_O})
+else ifeq ($(LIB), LGPIO)
+    LIB_USE += -llgpio -lm
 	OBJ_O := $(filter-out ${DIR_BIN}/RPI_gpiod.o ${DIR_BIN}/dev_hardware_SPI.o, ${OBJ_O})
 else ifeq ($(LIB), GPIOD)
     LIB_USE += -lgpiod -lm

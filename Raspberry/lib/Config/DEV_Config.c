@@ -30,6 +30,10 @@
 #include "DEV_Config.h"
 #include <fcntl.h>
 
+#if LGPIO
+int GPIO_Handle;
+int SPI_Handle;
+#endif
 
 /******************************************************************************
 function:	GPIO Write
@@ -40,6 +44,8 @@ void DEV_Digital_Write(UWORD Pin, UBYTE Value)
 {
 #ifdef BCM
 	bcm2835_gpio_write(Pin, Value);
+#elif  LGPIO  
+    lgGpioWrite(GPIO_Handle, Pin, Value);
 #elif GPIOD
     GPIOD_Write(Pin, Value);
 #endif
@@ -55,6 +61,8 @@ UBYTE DEV_Digital_Read(UWORD Pin)
 	UBYTE Read_Value = 0;
 #ifdef BCM
 	Read_Value = bcm2835_gpio_lev(Pin);
+#elif  LGPIO  
+    Read_Value = lgGpioRead(GPIO_Handle,Pin);
 #elif GPIOD
     Read_Value = GPIOD_Read(Pin);
 #endif
@@ -70,6 +78,8 @@ void DEV_SPI_WriteByte(UBYTE Value)
 {
 #ifdef BCM
 	bcm2835_spi_transfer(Value);
+#elif  LGPIO 
+    lgSpiWrite(SPI_Handle,(char*)&Value, 1);
 #elif GPIOD
 	DEV_HARDWARE_SPI_TransferByte(Value);
 #endif
@@ -85,6 +95,8 @@ UBYTE DEV_SPI_ReadByte()
 	UBYTE Read_Value = 0x00;
 #ifdef BCM
 	Read_Value = bcm2835_spi_transfer(0x00);
+#elif  LGPIO 
+    lgSpiRead(SPI_Handle, (char*)&Read_Value, 1);
 #elif GPIOD
 	Read_Value = DEV_HARDWARE_SPI_TransferByte(0x00);
 #endif
@@ -100,6 +112,8 @@ void DEV_Delay_ms(UDOUBLE xms)
 {
 #ifdef BCM
 	bcm2835_delay(xms);
+#elif  LGPIO  
+    lguSleep(xms/1000.0);
 #elif GPIOD
 	UDOUBLE i;
 	for(i=0; i < xms; i++) {
@@ -118,6 +132,8 @@ void DEV_Delay_us(UDOUBLE xus)
 {
 #ifdef BCM
 	bcm2835_delayMicroseconds(xus);
+#elif  LGPIO 
+    lguSleep(xus/1000000.0);
 #elif GPIOD
 	usleep(xus);
 #endif
@@ -135,7 +151,14 @@ static void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 	} else {
 		bcm2835_gpio_fsel(Pin, BCM2835_GPIO_FSEL_OUTP);
 	}
-
+#elif  LGPIO  
+    if(Mode == 0 || Mode == LG_SET_INPUT){
+        lgGpioClaimInput(GPIO_Handle,LFLAGS,Pin);
+        // Debug("IN Pin = %d\r\n",Pin);
+    }else{
+        lgGpioClaimOutput(GPIO_Handle, LFLAGS, Pin, LG_LOW);
+        // Debug("OUT Pin = %d\r\n",Pin);
+    }
 #elif GPIOD
 	if(Mode == 0 || Mode == GPIOD_IN) {
 		GPIOD_Direction(Pin, GPIOD_IN);
@@ -159,6 +182,13 @@ static void DEV_GPIO_Init(void)
 	DEV_GPIO_Mode(EPD_BUSY_PIN, BCM2835_GPIO_FSEL_INPT);
 
 	DEV_Digital_Write(EPD_CS_PIN, HIGH);
+
+#elif LGPIO
+	DEV_GPIO_Mode(EPD_BUSY_PIN, 0);
+	DEV_GPIO_Mode(EPD_RST_PIN, 1);
+    DEV_GPIO_Mode(EPD_CS_PIN, 1);
+
+    DEV_Digital_Write(EPD_CS_PIN, 1);
 
 #elif GPIOD
 	DEV_GPIO_Mode(EPD_BUSY_PIN, 0);
@@ -199,7 +229,49 @@ UBYTE DEV_Module_Init(void)
 
     //GPIO Config
 	DEV_GPIO_Init();
+#elif USE_WIRINGPI_LIB
+	//if(wiringPiSetup() < 0)//use wiringpi Pin number table
+	if(wiringPiSetupGpio() < 0) { //use BCM2835 Pin number table
+		printf("set wiringPi lib failed	!!! \r\n");
+		return 1;
+	} else {
+		printf("set wiringPi lib success !!! \r\n");
+	}
 
+	// GPIO Config
+	DEV_GPIO_Init();
+	wiringPiSPISetup(0,10000000);
+	// wiringPiSPISetupMode(0, 32000000, 0);
+#elif  LGPIO
+    char buffer[NUM_MAXBUF];
+    FILE *fp;
+
+    fp = popen("cat /proc/cpuinfo | grep 'Raspberry Pi 5'", "r");
+    if (fp == NULL) {
+        Debug("It is not possible to determine the model of the Raspberry PI\n");
+        return -1;
+    }
+
+    if(fgets(buffer, sizeof(buffer), fp) != NULL)
+    {
+        GPIO_Handle = lgGpiochipOpen(4);
+        if (GPIO_Handle < 0)
+        {
+            Debug( "gpiochip4 Export Failed\n");
+            return -1;
+        }
+    }
+    else
+    {
+        GPIO_Handle = lgGpiochipOpen(0);
+        if (GPIO_Handle < 0)
+        {
+            Debug( "gpiochip0 Export Failed\n");
+            return -1;
+        }
+    }
+    SPI_Handle = lgSpiOpen(0, 0, 12500000, 0);
+    DEV_GPIO_Init();
 #elif GPIOD
 	printf("Write and read /dev/spidev0.0 \r\n");
     GPIOD_Export();
@@ -227,7 +299,11 @@ void DEV_Module_Exit(void)
 
 	bcm2835_spi_end();
 	bcm2835_close();
-
+#elif LGPIO 
+    DEV_Digital_Write(EPD_CS_PIN, 0);
+	DEV_Digital_Write(EPD_RST_PIN, 0);
+    // lgSpiClose(SPI_Handle);
+    // lgGpiochipClose(GPIO_Handle);
 #elif GPIOD
 	DEV_HARDWARE_SPI_end();
 	DEV_Digital_Write(EPD_CS_PIN, 0);

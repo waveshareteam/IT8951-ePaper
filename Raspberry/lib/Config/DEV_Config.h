@@ -59,6 +59,10 @@
 
 #ifdef BCM
     #include <bcm2835.h>
+#elif LGPIO
+    #include <lgpio.h>
+    #define LFLAGS 0
+    #define NUM_MAXBUF  4
 #elif GPIOD
     #include "RPI_gpiod.h"
     #include "dev_hardware_SPI.h"
