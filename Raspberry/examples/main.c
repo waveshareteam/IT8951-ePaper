@@ -67,6 +67,12 @@ int main(int argc, char *argv[])
     //Exception handling:ctrl + c
     signal(SIGINT, Handler);
 
+    if (geteuid() != 0) {
+        Debug("Please run with root!\r\n");
+        Debug("Example: sudo ./epd\r\n");
+        exit(1);
+    }
+
     if (argc < 2){
         Debug("Please input VCOM value on FPC cable!\r\n");
         Debug("Example: sudo ./epd -2.51\r\n");
