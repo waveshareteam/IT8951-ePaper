@@ -37,7 +37,7 @@ Go to the project home directory, /IT8951, and type:
 compiles the program and generates an executable file: 
 	epd
 If you change the program, you need to type: 
-	sudo make clear, then retype: sudo make.
+	sudo make clean, then retype: sudo make.
 Note which type of ink screen you purchased. Observe the VCOM value on the FPC line, and know the display mode of the ink screen.
 example 1:
     If you purchased a 10.3inch e-Paper HAT and check the VCOM on the FPC is -1.52 (each screen may be different, see what happens),
