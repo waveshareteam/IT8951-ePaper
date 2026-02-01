@@ -397,7 +397,7 @@ parameter:
 static void EPD_IT8951_HostAreaPackedPixelWrite_1bp(IT8951_Load_Img_Info*Load_Img_Info,IT8951_Area_Img_Info*Area_Img_Info, bool Packed_Write)
 {
     UWORD Source_Buffer_Width, Source_Buffer_Height;
-    UWORD Source_Buffer_Length;
+    UDOUBLE Source_Buffer_Length;
 
     UWORD* Source_Buffer = (UWORD*)Load_Img_Info->Source_Buffer_Addr;
     EPD_IT8951_SetTargetMemoryAddr(Load_Img_Info->Target_Memory_Addr);
@@ -439,7 +439,7 @@ parameter:
 static void EPD_IT8951_HostAreaPackedPixelWrite_2bp(IT8951_Load_Img_Info*Load_Img_Info, IT8951_Area_Img_Info*Area_Img_Info, bool Packed_Write)
 {
     UWORD Source_Buffer_Width, Source_Buffer_Height;
-    UWORD Source_Buffer_Length;
+    UDOUBLE Source_Buffer_Length;
 
     UWORD* Source_Buffer = (UWORD*)Load_Img_Info->Source_Buffer_Addr;
     EPD_IT8951_SetTargetMemoryAddr(Load_Img_Info->Target_Memory_Addr);
@@ -480,7 +480,7 @@ parameter:
 static void EPD_IT8951_HostAreaPackedPixelWrite_4bp(IT8951_Load_Img_Info*Load_Img_Info, IT8951_Area_Img_Info*Area_Img_Info, bool Packed_Write)
 {
     UWORD Source_Buffer_Width, Source_Buffer_Height;
-    UWORD Source_Buffer_Length;
+    UDOUBLE Source_Buffer_Length;
 	
     UWORD* Source_Buffer = (UWORD*)Load_Img_Info->Source_Buffer_Addr;
     EPD_IT8951_SetTargetMemoryAddr(Load_Img_Info->Target_Memory_Addr);
